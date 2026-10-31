@@ -1,0 +1,3 @@
+interface:
+  display_name: "RFP Agent"
+  short_description: "Draft RFP answers from your KB and collect SME approvals"

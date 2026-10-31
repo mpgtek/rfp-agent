@@ -1,0 +1,30 @@
+# Runs offline as shipped. Use --config examples/models.toml for this profile.
+[limits]
+max_external_calls = 0
+
+[tasks.answer_generation]
+provider = "extractive"
+
+[tasks.equivalence]
+provider = "disabled"
+
+[tasks.verification]
+provider = "disabled"
+
+# Optional replacement task settings (require your own validated bridge):
+# [tasks.answer_generation]
+# provider = "json_bridge"
+# model = "your-validated-generative-model"
+# endpoint = "http://127.0.0.1:8787/generate"
+# allow_network = true
+# api_key_env = "RFP_BRIDGE_TOKEN"
+# max_output_tokens = 800
+# timeout_seconds = 30
+#
+# [tasks.verification]
+# provider = "jev_bridge" # or "gpt_decisions_bridge" or "json_bridge"
+# model = "your-validated-decision-model"
+# endpoint = "http://127.0.0.1:8787/decide"
+# allow_network = true
+#
+# Also set limits.max_external_calls > 0. No live connections have been tested.

@@ -1,0 +1,249 @@
+[
+  {
+    "kind": "exact",
+    "question": "Which single sign-on protocols are supported?",
+    "expected_evidence": [
+      11
+    ],
+    "case_id": "RFP-001"
+  },
+  {
+    "kind": "exact",
+    "question": "How is multi-factor authentication enforced?",
+    "expected_evidence": [
+      12
+    ],
+    "case_id": "RFP-002"
+  },
+  {
+    "kind": "exact",
+    "question": "How are users provisioned and deprovisioned?",
+    "expected_evidence": [
+      14
+    ],
+    "case_id": "RFP-003"
+  },
+  {
+    "kind": "exact",
+    "question": "How does role-based access control work?",
+    "expected_evidence": [
+      16
+    ],
+    "case_id": "RFP-004"
+  },
+  {
+    "kind": "exact",
+    "question": "How is customer data encrypted at rest?",
+    "expected_evidence": [
+      21
+    ],
+    "case_id": "RFP-005"
+  },
+  {
+    "kind": "exact",
+    "question": "Which transport encryption versions are accepted?",
+    "expected_evidence": [
+      22
+    ],
+    "case_id": "RFP-006"
+  },
+  {
+    "kind": "exact",
+    "question": "In which regions can customer content be hosted?",
+    "expected_evidence": [
+      26
+    ],
+    "case_id": "RFP-007"
+  },
+  {
+    "kind": "exact",
+    "question": "How long are deleted case records retained before purge?",
+    "expected_evidence": [
+      31
+    ],
+    "case_id": "RFP-008"
+  },
+  {
+    "kind": "exact",
+    "question": "How are customer tenants isolated?",
+    "expected_evidence": [
+      36
+    ],
+    "case_id": "RFP-009"
+  },
+  {
+    "kind": "exact",
+    "question": "Which customer actions are recorded in the tenant audit log?",
+    "expected_evidence": [
+      51
+    ],
+    "case_id": "RFP-010"
+  },
+  {
+    "kind": "exact",
+    "question": "What is the disaster recovery point objective?",
+    "expected_evidence": [
+      63
+    ],
+    "case_id": "RFP-011"
+  },
+  {
+    "kind": "exact",
+    "question": "What API rate limits apply?",
+    "expected_evidence": [
+      77
+    ],
+    "case_id": "RFP-012"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "Can administrators export tenant audit events using an API?",
+    "expected_evidence": [
+      54
+    ],
+    "case_id": "RFP-013"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "Can an Enterprise customer bring its own encryption key?",
+    "expected_evidence": [
+      23
+    ],
+    "case_id": "RFP-014"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "Can we move an existing tenant from US hosting to EU hosting?",
+    "expected_evidence": [
+      27
+    ],
+    "case_id": "RFP-015"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "How are dependency versions pinned and scanned for vulnerable software?",
+    "expected_evidence": [
+      44
+    ],
+    "case_id": "RFP-016"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "What security due diligence happens before a new critical subprocessor is used?",
+    "expected_evidence": [
+      71
+    ],
+    "case_id": "RFP-017"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "Which tasks must our team complete during onboarding?",
+    "expected_evidence": [
+      88
+    ],
+    "case_id": "RFP-018"
+  },
+  {
+    "kind": "paraphrase",
+    "question": "Do read-only auditors consume paid Agent seats?",
+    "expected_evidence": [
+      96
+    ],
+    "case_id": "RFP-019"
+  },
+  {
+    "kind": "compound-or-trap",
+    "question": "Does TLS encryption include customer client-certificate authentication on the public API?",
+    "expected_evidence": [
+      22,
+      24
+    ],
+    "gap": "TLS versions alone do not establish public-edge mutual TLS support",
+    "case_id": "RFP-020"
+  },
+  {
+    "kind": "compound-or-trap",
+    "question": "Can we use our own encryption key and immediately destroy every backup copy when we revoke it?",
+    "expected_evidence": [
+      23,
+      32
+    ],
+    "gap": "Provider-managed encryption must not be represented as BYOK or instant backup erasure",
+    "case_id": "RFP-021"
+  },
+  {
+    "kind": "compound-or-trap",
+    "question": "Can an EU tenant guarantee EU-only support access and zero cross-border processing?",
+    "expected_evidence": [
+      26,
+      28
+    ],
+    "gap": "EU storage does not imply EU-only personnel access",
+    "case_id": "RFP-022"
+  },
+  {
+    "kind": "compound-or-trap",
+    "question": "Does the one-hour recovery point objective also cover attachment loss after a regional disaster?",
+    "expected_evidence": [
+      63,
+      65
+    ],
+    "gap": "Attachments have a different objective and there is no cross-region backup",
+    "case_id": "RFP-023"
+  },
+  {
+    "kind": "compound-or-trap",
+    "question": "Can deleted records be kept on a configurable seven-year legal hold without exporting them?",
+    "expected_evidence": [
+      31,
+      34
+    ],
+    "gap": "Recycle-bin retention does not establish native legal-hold support",
+    "case_id": "RFP-024"
+  },
+  {
+    "kind": "missing-knowledge",
+    "question": "Is a VPAT accessibility conformance report available?",
+    "expected_evidence": [],
+    "gap": "The initial scenario deliberately contains no approved answer",
+    "case_id": "RFP-025"
+  },
+  {
+    "kind": "missing-knowledge",
+    "question": "Are customer records used to train generative AI models, and what opt-out controls exist?",
+    "expected_evidence": [],
+    "gap": "The initial scenario deliberately contains no approved answer",
+    "case_id": "RFP-026"
+  },
+  {
+    "kind": "missing-knowledge",
+    "question": "Is an SAP S/4HANA connector available with bidirectional purchase-order synchronization?",
+    "expected_evidence": [],
+    "gap": "The initial scenario deliberately contains no approved answer",
+    "case_id": "RFP-027"
+  },
+  {
+    "kind": "commitment-review",
+    "question": "Is a SOC 2 Type II report available?",
+    "expected_evidence": [
+      6
+    ],
+    "case_id": "RFP-028"
+  },
+  {
+    "kind": "commitment-review",
+    "question": "May customers store payment card data in the product?",
+    "expected_evidence": [
+      9
+    ],
+    "case_id": "RFP-029"
+  },
+  {
+    "kind": "commitment-review",
+    "question": "Will MeridianDesk accept unlimited liability for data incidents?",
+    "expected_evidence": [
+      100
+    ],
+    "case_id": "RFP-030"
+  }
+]
