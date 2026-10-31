@@ -16,9 +16,7 @@ This information is used to retrieve evidence, draft supported answers, identify
 
 ## What MPG receives
 
-RFP Agent does not automatically collect or transmit your documents, knowledge base, reviewer information or usage telemetry to MPG Technologies LLC. It does not require an MPG account or use an MPG-hosted knowledge-base service. MPG does not receive or sell your local workspace data through the skill.
-
-If you voluntarily send information to MPG for support, MPG receives what you send. Support messages sent through the MPG website are handled under its website privacy policy. Do not include confidential RFPs, KB exports, credentials or personal data that is unnecessary for the support request.
+Nothing. The skill runs locally on your machine. The RFP knowledge base is stored in a SQLite database on your machine.
 
 ## Hosting AI service and other recipients
 
@@ -37,9 +35,3 @@ The skill has no automatic retention-expiry schedule. Local documents, source sn
 You control which materials you provide and which services you configure. To remove information retained by the skill, remove the relevant local workspace and generated copies you control. Uninstalling the skill alone does not remove the separate workspace. Keep backups if you need them before deleting files.
 
 Local deletion does not delete original source documents, other people's copies, device/cloud backups, or information retained by your hosting AI provider or optional services. Use those providers' controls or contact them for requests concerning their copies.
-
-## Contact and changes
-
-For privacy questions or requests concerning information you voluntarily sent to MPG, use the [MPG Technologies contact form](https://www.mpgtek.com/#contact). MPG cannot retrieve or delete a local KB that has not been shared with it.
-
-Updates to this policy will be published in this repository with a revised effective date.
