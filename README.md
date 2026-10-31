@@ -263,3 +263,7 @@ Before answering, run `prepare questionnaire.docx --scope your-scope` (XLSX is a
 New evidence maps enumerate `requirements` as supported/missing, link claims to `requirement_ids` and KB excerpts, and explicitly mark coverage complete/partial/none. Partial responses must acknowledge incomplete coverage (`complete: false`, `coverage_checked: true`). Missing facts never enter the customer response. A documented negative capability is a supported fact. A known 99.7% SLA is preserved and flagged as below a requested 99.9%; service credits are not invented. See [the schema and round-trip example](references/word-answering.md).
 
 The default workbook has SME Review, Instructions and Supporting Evidence tabs. The SME fills the four green fields: SME Response, Review Status, Reviewed By and Comments. Approved new facts enter the KB when the recognized workbook returns for application; Pending stays open. Not Applicable needs an explanation and does not create KB content. Existing different answers go to comparison review. Hidden references and stored snapshots validate context, workspace, scope and freshness. Rerun using fresh evidence after application. Fully unknown responses stay blank.
+
+## License
+
+[MIT License](LICENSE). Copyright (c) 2026 MPG Technologies LLC.

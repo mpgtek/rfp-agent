@@ -10,7 +10,7 @@ These terms apply to your use of RFP Agent, the free skill/plugin for building a
 
 MPG Technologies LLC makes RFP Agent available at no charge for use in your own RFP and questionnaire workflows. RFP Agent does not process payments or require an MPG account. Hosting AI subscriptions, optional providers and other third-party services may have separate charges and terms.
 
-These terms describe use of the skill. They do not establish a separate open-source license or grant additional redistribution rights. Third-party software remains subject to its applicable licenses.
+RFP Agent is licensed under the [MIT License](LICENSE), which grants permission to use, modify and redistribute the software, including for commercial purposes, subject to its conditions. These terms do not restrict the permissions granted by that license. Third-party software remains subject to its applicable licenses.
 
 ## Your materials and responsibilities
 

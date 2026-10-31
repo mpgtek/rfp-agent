@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "rfp-agent"
 version = "0.1.0"
 description = "Offline-first, evidence-backed RFP answering with approved knowledge"
+license = {file = "LICENSE"}
 requires-python = ">=3.11"
 dependencies = ["openpyxl>=3.1,<4", "python-docx>=1.1,<2", "lxml>=4.9,<7"]
 
