@@ -4,7 +4,15 @@ A free skill from **MPG Technologies LLC** for building a reusable company KB, d
 
 ## Install the skill
 
-Copy this repository into `~/.agents/skills/rfp-agent` for Codex, or `~/.claude/skills/rfp-agent` for Claude Code. Start a new session and invoke RFP Agent. It checks Python dependencies, discovers the existing KB or guides first-time company setup, and asks for source documents. Keep company data outside this repository.
+1. Download [rfp-agent-skill.zip](https://github.com/mpgtek/rfp-agent/releases/latest/download/rfp-agent-skill.zip).
+2. Extract it and move the `rfp-agent` folder into `~/.agents/skills/` for Codex or `~/.claude/skills/` for Claude Code.
+3. Start a new session and invoke RFP Agent. It checks dependencies, reuses your existing KB or guides first-time company setup, then asks for source documents.
+
+The ZIP includes only skill instructions, runtime code, reference guides and licensing/policy files. It excludes tests, checked-in examples, synthetic scenario documents and Git history. Keep company data outside the installed folder. See [installation details](INSTALL.md).
+
+### For developers
+
+Clone this repository to work on the code or run tests and examples. The repository intentionally retains those development resources; regular users should install the ZIP instead. Build the installation ZIP with `python3 tools/build_skill.py`. The optional CLI demo generates its inputs from Python code and also works without the checked-in examples folder.
 
 ## Privacy, terms and support
 
