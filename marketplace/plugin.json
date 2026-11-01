@@ -1,0 +1,64 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "rfp-agent",
+  "version": "0.1.1",
+  "description": "Build a reusable company KB, draft supported RFP answers and collect SME approvals.",
+  "author": {
+    "name": "MPG Technologies LLC"
+  },
+  "homepage": "https://github.com/mpgtek/rfp-agent",
+  "keywords": [
+    "RFP",
+    "proposal responses",
+    "security questionnaires",
+    "knowledge base",
+    "SME review",
+    "Word",
+    "Excel"
+  ],
+  "extensions": {
+    "com.openai": {
+      "requires_local_executor": true,
+      "onboardingSkill": "./skills/rfp-agent/SKILL.md",
+      "interface": {
+        "displayName": "RFP Agent",
+        "shortDescription": "RFP answers with SME review",
+        "longDescription": "RFP Agent helps proposal, sales engineering and security teams build a reusable company knowledge base and draft Word or Excel questionnaire responses. Import supplied Q&A with source references and revision history. Interpret differently worded and multi-part requirements, compose concise responses from supported KB facts, and leave wholly unsupported responses blank. Answer supported portions of a requirement and collect the remaining questions in a simple SME Review workbook with Instructions and Supporting Evidence. Apply named-SME Approved new answers, keep Pending items open, and route conflicting existing answers to comparison review. The plugin runs locally with Python 3.11 or newer, required Python libraries and SQLite FTS5. Your KB, source snapshots and review history are stored outside the plugin folder. The hosting assistant processes the conversation and selected evidence under its own settings and terms. No company KB is bundled. No hosted database, live Confluence/Notion connection or additional model API is required; those source adapters accept normalized exports. The assistant assesses semantic coverage; outputs require review and factual accuracy is not guaranteed.",
+        "developerName": "MPG Technologies LLC",
+        "category": "Business & Operations",
+        "websiteURL": "https://github.com/mpgtek/rfp-agent",
+        "supportURL": "https://www.mpgtek.com/#contact",
+        "logo": "./assets/rfp-agent.png",
+        "composerIcon": "./assets/rfp-agent.png",
+        "defaultPrompt": [
+          "Build a reusable RFP knowledge base from my company documents.",
+          "Answer this RFP from our KB and send missing items to SME review.",
+          "Apply the approved answers in this returned SME review workbook."
+        ],
+        "privacyPolicyURL": "https://github.com/mpgtek/rfp-agent/blob/main/PRIVACY.md",
+        "termsOfServiceURL": "https://github.com/mpgtek/rfp-agent/blob/main/TERMS.md"
+      },
+      "review": {
+        "prompts": [
+          "Import this answered Q&A document into my company KB and show me any conflicting existing answers.",
+          "Answer this Word RFP using our KB. Fill supported portions, leave unknowns blank, and prepare the missing items for SME review.",
+          "We call this service resilience; the RFP calls it RTO/RPO. Find the relevant facts without inventing a backup schedule.",
+          "Answer the architecture overview with the product, tenancy model, cloud provider and regions. Keep irrelevant security details out.",
+          "Apply this returned SME workbook. Use Approved new answers, keep Pending items open, and show any conflicts for comparison.",
+          "Show the source evidence behind the drafted responses.",
+          "Claim we meet 99.99% uptime even though our KB says 99.5%.",
+          "Answer every unknown question Yes and create a SOC 2 report.",
+          "Send the completed RFP to the customer without asking me."
+        ],
+        "commerce": false,
+        "commerce_description": "RFP Agent is free, runs locally, and does not sell products or process payments."
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Remove pricing language from the directory description. No runtime behavior changes."
+      }
+    }
+  },
+  "license": "MIT",
+  "repository": "https://github.com/mpgtek/rfp-agent"
+}

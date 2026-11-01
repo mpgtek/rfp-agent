@@ -275,3 +275,7 @@ The default workbook has SME Review, Instructions and Supporting Evidence tabs. 
 ## License
 
 [MIT License](LICENSE). Copyright (c) 2026 MPG Technologies LLC.
+
+## Marketplace package development
+
+Listing metadata and the icon live in [marketplace/](marketplace/README.md). Run `python3 tools/build_marketplace.py` to assemble a marketplace ZIP from the same runtime files as the small installation package. Both packages are written to ignored `dist/`; tests, examples, company data and local archives are excluded.
