@@ -1,5 +1,6 @@
 {
   "name": "rfp-agent",
+  "displayName": "RFP Agent",
   "version": "0.1.1",
   "description": "RFP Agent builds a reusable company knowledge base from your existing Q&A (including Word, Excel, Confluence or Notion exports) and uses it to draft evidence-backed answers to RFPs and security questionnaires in Word or Excel. Unsupported questions stay blank and go to a simple SME review workbook; approved answers update the KB. Runs locally; your data stays on your computer.",
   "author": {
