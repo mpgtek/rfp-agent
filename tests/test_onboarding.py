@@ -145,7 +145,7 @@ class OnboardingTests(unittest.TestCase):
 
     def test_discovery_in_fresh_process_needs_no_optional_libraries(self):
         configure(self.workspace,"ExampleCompany")
-        script=Path(__file__).resolve().parents[1]/"scripts/discover_workspace.py"
+        script=Path(__file__).resolve().parents[1]/"plugins/rfp-agent/skills/rfp-agent/scripts/discover_workspace.py"
         p=subprocess.run([sys.executable,"-S",str(script)],capture_output=True,text=True)
         self.assertEqual(0,p.returncode,p.stderr)
         result=json.loads(p.stdout)
@@ -156,7 +156,7 @@ class OnboardingTests(unittest.TestCase):
         configure(self.workspace,"ExampleCompany")
         database=self.workspace/"knowledge.sqlite3"
         database.unlink()
-        script=Path(__file__).resolve().parents[1]/"scripts/discover_workspace.py"
+        script=Path(__file__).resolve().parents[1]/"plugins/rfp-agent/skills/rfp-agent/scripts/discover_workspace.py"
         p=subprocess.run([sys.executable,"-S",str(script)],capture_output=True,text=True)
         self.assertEqual(2,p.returncode)
         result=json.loads(p.stderr)
@@ -181,7 +181,7 @@ class OnboardingTests(unittest.TestCase):
 
 class BootstrapTests(unittest.TestCase):
     def setUp(self):
-        spec = importlib.util.spec_from_file_location("rfp_bootstrap", Path(__file__).resolve().parents[1] / "scripts/bootstrap.py")
+        spec = importlib.util.spec_from_file_location("rfp_bootstrap", Path(__file__).resolve().parents[1] / "plugins/rfp-agent/skills/rfp-agent/scripts/bootstrap.py")
         self.module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.module)
         self.temp = tempfile.TemporaryDirectory()

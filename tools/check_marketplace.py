@@ -9,7 +9,7 @@ import tempfile
 from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-version = json.loads((ROOT / 'marketplace/plugin.json').read_text())['version']
+version = json.loads((ROOT / 'plugins/rfp-agent/plugin.json').read_text())['version']
 archive = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / f'dist/rfp-agent-plugin-{version}.zip'
 with tempfile.TemporaryDirectory(prefix='rfp-marketplace-check-') as temporary:
     root = Path(temporary)

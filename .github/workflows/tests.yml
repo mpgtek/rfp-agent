@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e .
+      - run: python -m pip install -e ./plugins/rfp-agent/skills/rfp-agent
       - run: python -m unittest discover -s tests -v
       - run: python tools/build_skill.py
       - run: python tools/check_skill_package.py

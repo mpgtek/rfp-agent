@@ -65,6 +65,8 @@ def bootstrap(state_dir=None, offline=False):
         raise RuntimeError("Python 3.11 or newer is required to initialize this skill")
     state = Path(state_dir).expanduser().resolve() if state_dir else state_directory().resolve()
     protected = ROOT.parent.parent if ROOT.parent.name == "skills" and (ROOT.parent.parent / "plugin.json").is_file() else ROOT
+    if protected.parent.name == "plugins" and (protected.parent.parent / ".git").exists():
+        protected = protected.parent.parent
     if state == protected or protected in state.parents:
         raise ValueError("Runtime/state directory must be outside the skill directory")
     state.mkdir(parents=True, exist_ok=True)

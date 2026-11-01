@@ -1,0 +1,5 @@
+{
+  "name": "mpgtek-rfp-agent",
+  "owner": {"name": "MPG Technologies LLC"},
+  "plugins": [{"name": "rfp-agent", "source": "./plugins/rfp-agent", "description": "RFP answers grounded in your company knowledge base."}]
+}

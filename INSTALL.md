@@ -20,10 +20,12 @@ This download contains skill instructions, runtime code, reference guides and li
 
 The optional `fixtures` and `demo` commands generate their synthetic inputs from bundled Python code; they do not require the repository's examples folder. Demo runs always require a fresh, explicitly selected workspace outside the installed skill. Never import synthetic data into your company KB.
 
-See the [full documentation](https://github.com/mpgtek/rfp-agent#readme) for developer installation, source formats, optional provider configuration and limitations. The normalized bridge contract is also included in [BRIDGE.md](BRIDGE.md).
+See the [full documentation](https://github.com/mpgtek/rfp-agent#readme) for developer installation, source formats, optional provider configuration and limitations. The normalized bridge contract is also included in [BRIDGE.md](plugins/rfp-agent/skills/rfp-agent/BRIDGE.md).
 
 [Privacy](PRIVACY.md) · [Terms](TERMS.md) · [MIT License](LICENSE)
 
 Support: [MPG Technologies LLC](https://www.mpgtek.com/#contact). Do not send credentials or confidential documents in public issues or initial support requests.
 
 On Windows, `~` denotes your user profile (for example, `C:\Users\your-name`); use `py -3` in place of `python3` in command examples. Existing installations continue to use the legacy `~/Documents/Codex/rfp-agent/rfp-kb-store` if the new location does not exist.
+
+For development, the shared plugin is in `plugins/rfp-agent/`; the standalone skill folder is `plugins/rfp-agent/skills/rfp-agent/`. The Claude Code marketplace can be added with `/plugin marketplace add mpgtek/rfp-agent` after the repository changes are published.

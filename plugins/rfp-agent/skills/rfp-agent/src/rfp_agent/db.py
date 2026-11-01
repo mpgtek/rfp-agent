@@ -73,6 +73,8 @@ class Store:
         self.root = Path(workspace).expanduser().resolve()
         code = Path(__file__).resolve().parents[2]
         protected = code.parent.parent if code.parent.name == "skills" and (code.parent.parent / "plugin.json").is_file() else code
+        if protected.parent.name == "plugins" and (protected.parent.parent / ".git").exists():
+            protected = protected.parent.parent
         if self.root == protected or protected in self.root.parents:
             raise ValueError("Persistent workspace must be outside the code repository")
         self.root.mkdir(parents=True, exist_ok=True)

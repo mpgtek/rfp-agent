@@ -1,50 +1,36 @@
 #!/usr/bin/env python3
-"""Build the OpenAI marketplace bundle from the same small installation package."""
+"""Package the maintained shared plugin directory."""
 import argparse
 import json
 from pathlib import Path
-import tempfile
 from zipfile import ZipFile, ZIP_DEFLATED
-from build_skill import build
 
 ROOT = Path(__file__).resolve().parents[1]
+PLUGIN = ROOT / 'plugins/rfp-agent'
+EXCLUDED = {'__pycache__', '.venv', '.pytest_cache'}
 
 
 def marketplace(output=None):
-    manifest = json.loads((ROOT / 'marketplace/plugin.json').read_text())
+    manifest = json.loads((PLUGIN / 'plugin.json').read_text(encoding='utf-8'))
+    claude = json.loads((PLUGIN / '.claude-plugin/plugin.json').read_text(encoding='utf-8'))
+    assert (manifest['name'], manifest['version']) == (claude['name'], claude['version'])
+    for name in ('LICENSE', 'PRIVACY.md', 'TERMS.md'):
+        assert (ROOT / name).read_bytes() == (PLUGIN / name).read_bytes() == (PLUGIN / 'skills/rfp-agent' / name).read_bytes(), f'{name} copies differ'
     output = Path(output or ROOT / f'dist/rfp-agent-plugin-{manifest["version"]}.zip').resolve()
     interface = manifest['extensions']['com.openai']['interface']
-    assert manifest['extensions']['com.openai']['requires_local_executor'] is True
-    assert 'apps' not in manifest and 'apps' not in manifest['extensions']['com.openai']
-    assert len(interface['displayName']) <= 30 and len(interface['shortDescription']) <= 30
-    assert len(interface['longDescription']) <= 4000
+    assert len(interface['shortDescription']) <= 30
     output.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='rfp-marketplace-build-') as temporary:
-        skill_zip = build(Path(temporary) / 'skill.zip')
-        with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
-            archive.write(ROOT / 'marketplace/plugin.json', 'plugin.json')
-            for field in {'logo', 'composerIcon'}:
-                relative = interface[field].removeprefix('./')
-                source = (ROOT / 'marketplace' / relative).resolve()
-                assert source.is_relative_to((ROOT / 'marketplace').resolve()) and source.is_file()
-                if relative not in archive.namelist():
-                    archive.write(source, relative)
-            with ZipFile(skill_zip) as skill:
-                for entry in skill.infolist():
-                    archive.writestr('skills/' + entry.filename, skill.read(entry.filename))
-            for name in ['LICENSE', 'PRIVACY.md', 'TERMS.md']:
-                archive.write(ROOT / name, name)
-            archive.writestr('README.md', '# RFP Agent marketplace package\n\n'
-                             'Source and documentation: https://github.com/mpgtek/rfp-agent\n'
-                             'Local desktop execution; company data stays outside the plugin.\n'
-                             'See the included skill instructions, privacy policy, terms and MIT License.\n')
+    with ZipFile(output, 'w', ZIP_DEFLATED) as archive:
+        for path in sorted(PLUGIN.rglob('*')):
+            if path.is_symlink():
+                raise ValueError(f'Symlinks are not allowed: {path}')
+            if path.is_file() and not any(p in EXCLUDED or p.endswith('.egg-info') for p in path.parts) and path.suffix not in {'.pyc', '.pyo'} and path.name != '.DS_Store':
+                archive.write(path, path.relative_to(PLUGIN).as_posix())
     with ZipFile(output) as archive:
         assert archive.testzip() is None
-        assert archive.read('plugin.json') == (ROOT / 'marketplace/plugin.json').read_bytes()
-        assert all(not entry.startswith('/') and '..' not in Path(entry).parts for entry in archive.namelist())
-        assert not any(part in {'tests', 'examples', '.git', '.github', '__pycache__', 'tools'}
-                       for name in archive.namelist() for part in Path(name).parts)
-    print(f'{output}: {len(archive.namelist())} files, {output.stat().st_size:,} bytes')
+        assert {'plugin.json', '.claude-plugin/plugin.json', 'skills/rfp-agent/SKILL.md'} <= set(archive.namelist())
+        assert not any(part in {'tests', 'examples', '.git', '.github', 'tools'} for name in archive.namelist() for part in Path(name).parts)
+    print(f'{output}: {output.stat().st_size:,} bytes')
     return output
 
 

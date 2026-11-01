@@ -27,7 +27,7 @@ Clone this repository to work on the code or run tests and examples. The reposit
 2. Fill **SME Response**, choose **Approved**, and enter **Reviewed By**. Leave unfinished items **Pending**. For **Not Applicable**, enter your name and an explanation in **Comments**.
 3. Save and upload the workbook, asking the skill to apply the review. Approved new facts update the KB. Conflicting existing answers receive a comparison review. Regenerate the RFP to use the approved facts.
 
-**Instructions** explains every column. **Supporting Evidence** contains the facts already used, source excerpts and known shortfalls. Context cells are protected against accidental edits; technical references are hidden. Names are local audit fields, not authenticated signatures. See [the review rules](references/sme-review.md).
+**Instructions** explains every column. **Supporting Evidence** contains the facts already used, source excerpts and known shortfalls. Context cells are protected against accidental edits; technical references are hidden. Names are local audit fields, not authenticated signatures. See [the review rules](plugins/rfp-agent/skills/rfp-agent/references/sme-review.md).
 
 The internal command is `apply-sme-review returned.xlsx`; `ingest`, `feedback` and `apply-review` recognize the same form. No extra proposal/approval command is needed for approved new answers. Older technical feedback workbooks keep their legacy behavior.
 
@@ -45,9 +45,9 @@ The included examples describe **MeridianDesk**, one fictional B2B case-manageme
 
 Python 3.11+ with SQLite FTS5 is required. Tested here with Python 3.12.14 and openpyxl 3.1.5; see `VALIDATION.md` for the actual recorded environment and results.
 
-When invoked as an agent skill, setup is guided automatically. The agent runs `scripts/bootstrap.py`, prepares/checks its Python libraries and FTS5, asks for the company/workspace, then asks for source files. It imports new Q&A directly, reviews only conflicting replacements, and continues to RFP answering and feedback. On later invocations it resumes the saved workflow. Users do not need to run the installation commands below. See [the first-run flow](references/first-run.md).
+When invoked as an agent skill, setup is guided automatically. The agent runs `scripts/bootstrap.py`, prepares/checks its Python libraries and FTS5, asks for the company/workspace, then asks for source files. It imports new Q&A directly, reviews only conflicting replacements, and continues to RFP answering and feedback. On later invocations it resumes the saved workflow. Users do not need to run the installation commands below. See [the first-run flow](plugins/rfp-agent/skills/rfp-agent/references/first-run.md).
 
-Before bootstrap, `python3 -S scripts/discover_workspace.py` recovers saved company/workspace metadata without optional libraries and without creating a DB. It discovers an existing Documents/Codex/rfp-agent-runtime registry if the standard settings are absent/inaccessible; explicit `RFP_AGENT_STATE_DIR` overrides discovery. Runtime failures must not restart company onboarding. Keep the company's data folder accessible to new chats, preferably through a local project with that folder attached.
+Before bootstrap, `python3 -S plugins/rfp-agent/skills/rfp-agent/scripts/discover_workspace.py` recovers saved company/workspace metadata without optional libraries and without creating a DB. It discovers an existing Documents/Codex/rfp-agent-runtime registry if the standard settings are absent/inaccessible; explicit `RFP_AGENT_STATE_DIR` overrides discovery. Runtime failures must not restart company onboarding. Keep the company's data folder accessible to new chats, preferably through a local project with that folder attached.
 
 The bootstrap keeps runtime/settings outside the skill directory. It reuses a compatible current interpreter if a previous managed environment lacks libraries, or installs missing `openpyxl`/`python-docx` packages only into a managed environment. It does not install system Python or alter global packages. With no Python 3.11+/FTS5 or no package access, it reports the blocker while preserving the discovered company/KB location. `--offline` forbids downloads.
 
@@ -56,7 +56,7 @@ Runtime/settings defaults are `~/Library/Application Support/rfp-agent` on macOS
 For manual use, bootstrap prints the Python/launcher command to use:
 
 ```sh
-python3 scripts/bootstrap.py
+python3 plugins/rfp-agent/skills/rfp-agent/scripts/bootstrap.py
 # Using the returned Python/launcher paths:
 <python> <launcher> --workspace /chosen/company-workspace setup --company "Company" --scope product-a
 <python> <launcher> setup --source /path/to/company-documents
@@ -69,7 +69,7 @@ The following is an alternative developer installation and explicit synthetic de
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install -e .
+.venv/bin/python -m pip install -e ./plugins/rfp-agent/skills/rfp-agent
 .venv/bin/python -m unittest discover -s tests -v
 
 # Choose a NEW data directory outside this repository.
@@ -78,14 +78,14 @@ python3 -m venv .venv
 
 The demo imports 100 Q&A records, answers 30 questions, creates and ingests explicit synthetic SME feedback, verifies that pending feedback does not improve results, approves two proposals as a different actor, and processes the RFP again. It asserts that an audit-export paraphrase becomes high-confidence and that a new VPAT answer is reused while retaining compliance review. It writes `demo-result.json` with measured status counts and labeled retrieval results. No API keys or network calls are needed. Re-running `demo` requires a new workspace; normal ingestion and feedback support replay.
 
-Coverage was informed by the public [CSA Cloud Controls Matrix/CAIQ resources](https://cloudsecurityalliance.org/research/cloud-controls-matrix) and [OWASP ASVS](https://asvs.owasp.org/). These are coverage references only: no real vendor's answers or attestations were imported. All product facts and simulated policy documents are original synthetic scenario content. `src/rfp_agent/corpus.py` is the maintained corpus; `examples/scenario.json` is its readable export, and `examples/scenario-documents/` contains the 20 simulated evidence documents.
+Coverage was informed by the public [CSA Cloud Controls Matrix/CAIQ resources](https://cloudsecurityalliance.org/research/cloud-controls-matrix) and [OWASP ASVS](https://asvs.owasp.org/). These are coverage references only: no real vendor's answers or attestations were imported. All product facts and simulated policy documents are original synthetic scenario content. `plugins/rfp-agent/skills/rfp-agent/src/rfp_agent/corpus.py` is the maintained corpus; `examples/scenario.json` is its readable export, and `examples/scenario-documents/` contains the 20 simulated evidence documents.
 
 The 30 labeled RFP cases include 12 exact questions, seven paraphrases, five compound/near-match traps, three deliberately missing knowledge areas, and three commitment/assurance questions. For example, TLS support must not imply public mutual TLS, EU storage must not imply EU-only support personnel, and a one-hour database recovery objective must not be applied to attachments. `examples/rfp-gold.json` records expected evidence and known gaps. The gold labels are used only for demo evaluation, never to answer customer questions.
 
 For environments where dependencies are already installed, no installation is required:
 
 ```sh
-PYTHONPATH=src python3 -m rfp_agent --workspace ../rfp-demo-data demo
+PYTHONPATH=plugins/rfp-agent/skills/rfp-agent/src python3 -m rfp_agent --workspace ../rfp-demo-data demo
 ```
 
 ## Normal workflow
@@ -128,7 +128,7 @@ rfp-agent apply-review /path/to/returned-change-review.xlsx
 
 Explicit Approved rows update the KB immediately as new approved revisions; Rejected rows close proposals; Pending/Needs review rows do not change approved content. There is no additional approval round for a returned named-SME approval document that the user asks to apply. The packet is bound to its source workspace/proposal snapshots and current canonical revision. Stale/tampered context, unknown IDs, missing SME names, blank Approved answers and invalid/formula cells block the decided batch transactionally. Identical reuploads do not create duplicate revisions. Local reviewer names are audit fields, not authenticated signatures.
 
-Generate or refresh a packet for existing pending records with `change-review --ids 101 102`, optionally `--format csv --output /new/path/review.csv`. With no IDs, it exports pending proposals for the saved/selected scope. See [the change-review reference](references/change-review.md) for field definitions and limits.
+Generate or refresh a packet for existing pending records with `change-review --ids 101 102`, optionally `--format csv --output /new/path/review.csv`. With no IDs, it exports pending proposals for the saved/selected scope. See [the change-review reference](plugins/rfp-agent/skills/rfp-agent/references/change-review.md) for field definitions and limits.
 
 ### Older technical feedback workbooks
 
@@ -172,7 +172,7 @@ Identical normalized Q&A records share source observations. Reimporting the same
 
 ## Word answering
 
-DOCX questionnaires with existing question/requirement and response columns are supported. Run `detect questionnaire.docx`, inspect KB evidence and use `answer questionnaire.docx` to create a same-format copy. Word table names are `Table 1`, `Table 2`, etc.; explicit column mapping uses letters with --sheet and --header-row. Nonquestionnaire tables, original text, IDs, priorities, response codes and prefilled/merged/protected/complex response cells are preserved. Only the main document XML changes; other ZIP members remain byte-for-byte identical. Paragraph-only questionnaires and complex forms are not automatically populated. See [Word and known-answer selection](references/word-answering.md).
+DOCX questionnaires with existing question/requirement and response columns are supported. Run `detect questionnaire.docx`, inspect KB evidence and use `answer questionnaire.docx` to create a same-format copy. Word table names are `Table 1`, `Table 2`, etc.; explicit column mapping uses letters with --sheet and --header-row. Nonquestionnaire tables, original text, IDs, priorities, response codes and prefilled/merged/protected/complex response cells are preserved. Only the main document XML changes; other ZIP members remain byte-for-byte identical. Paragraph-only questionnaires and complex forms are not automatically populated. See [Word and known-answer selection](plugins/rfp-agent/skills/rfp-agent/references/word-answering.md).
 
 For a supported requirement, compose a concise answer at the requested level of detail and prepare a source-checksum/scope/revision-bound map with response text, claim citations and support/completeness/relevance/detail review. Supporting excerpts remain verbatim; the customer prose may summarize the cited facts. Run `answer questionnaire.docx --evidence-map selections.json`. The CLI checks source references, terminology/numeric anchors and basic polarity/restriction preservation; partial selections with validated item coverage write only supported claims; wholly unsupported selections stay blank. These checks do not prove semantic entailment. Per-run coverage is an explicit agent assessment, not a machine-proven semantic match or permanent approved variant. The host LLM authors and reviews the composition; it must omit irrelevant implementation details from overview answers. No network calls are needed.
 
@@ -195,7 +195,7 @@ Formulas depending on response cells are preserved but not evaluated by this pro
 
 ## Source adapters
 
-When the agent builds the KB from source material, it must first derive customer-facing answers using [the ingestion workflow in SKILL.md](SKILL.md) and [the answer-authoring rules](references/answer-authoring.md). Company responses and the agreed profile supply the facts; the stored answer speaks directly as the company. Source attribution, missing details and review commentary belong in metadata. Questions without substantive answers stay in the review backlog. The raw `ingest` CLI imports prepared text unchanged and does not automatically rewrite prose or remove internal commentary.
+When the agent builds the KB from source material, it must first derive customer-facing answers using [the ingestion workflow in SKILL.md](plugins/rfp-agent/skills/rfp-agent/SKILL.md) and [the answer-authoring rules](plugins/rfp-agent/skills/rfp-agent/references/answer-authoring.md). Company responses and the agreed profile supply the facts; the stored answer speaks directly as the company. Source attribution, missing details and review commentary belong in metadata. Questions without substantive answers stay in the review backlog. The raw `ingest` CLI imports prepared text unchanged and does not automatically rewrite prose or remove internal commentary.
 
 `ingest` supports a file or a recursively scanned directory of supported files. Directory import parses the entire batch before staging records and excludes symlink files. Use a directory of knowledge files, not the persistent workspace or a mixed folder containing unanswered RFPs. Empty/malformed supported files fail the batch with a clear error. Sources never execute as instructions.
 
@@ -233,7 +233,7 @@ Replace `provider` with `notion` for Notion exports. A future live connector sho
 
 Customer answering uses the host LLM to compose relevant prose from known KB facts, with per-claim source references and local validation; unestablished matches are skipped. The legacy analysis/synthetic-demo path can still extract related evidence, but is not used for customer response writing. `providers.py` defines separate `Generator` and `DecisionEngine` protocols. TOML task settings independently route `answer_generation`, `equivalence`, and `verification`; see [examples/models.toml](examples/models.toml). Per-run `--config` selects task models; it cannot make unknown matches writable under the known-only policy. There are no hardcoded commercial model IDs, prices or credentials.
 
-The optional HTTP adapters implement **our normalized bridge contract**, described in [BRIDGE.md](BRIDGE.md). `json_bridge` supports generative evidence selection and decisions. Named `JevDecisionAdapter` and `GPTDecisionsAdapter` select optional decision bridges. They are tested with mocked transports, **not direct native Jev/GPT Decisions API connections**. You must supply and validate a bridge to the service's actual current API. No live provider has been called or benchmarked. No configured endpoint means no implied connection; external calls require an explicit endpoint, task-level `allow_network=true`, model, and a nonzero run call budget.
+The optional HTTP adapters implement **our normalized bridge contract**, described in [BRIDGE.md](plugins/rfp-agent/skills/rfp-agent/BRIDGE.md). `json_bridge` supports generative evidence selection and decisions. Named `JevDecisionAdapter` and `GPTDecisionsAdapter` select optional decision bridges. They are tested with mocked transports, **not direct native Jev/GPT Decisions API connections**. You must supply and validate a bridge to the service's actual current API. No live provider has been called or benchmarked. No configured endpoint means no implied connection; external calls require an explicit endpoint, task-level `allow_network=true`, model, and a nonzero run call budget.
 
 The optional CLI generative-provider path retains its older extractive guard: provider output must cite known revision IDs and consist of verbatim paragraphs from those approved answers. Unsupported prose is rejected and falls back to an extractive draft requiring review. This constraint applies to the optional provider bridge; the default host-agent workflow uses the claim-cited composition map described above. Decision engines may downgrade status or reject support; they cannot approve knowledge or upgrade uncertain drafts.
 
@@ -243,10 +243,12 @@ API failures, invalid output and budget exhaustion produce `needs-review` extrac
 
 ```text
 rfp-agent/                 Code, tests, skill instructions, synthetic fixtures
-  src/rfp_agent/
+  plugins/rfp-agent/       Shared Codex and Claude plugin
+    plugin.json           Portable OpenAI manifest
+    .claude-plugin/       Claude manifest
+    skills/rfp-agent/     Maintained skill and runtime code
   tests/
   examples/
-  SKILL.md
 
 ../my-rfp-data/             Persistent workspace, never committed with code
   knowledge.sqlite3        Approved KB, FTS5, proposals, drafts, runs, audit
@@ -268,7 +270,7 @@ Tests exercise the full vertical slice, four statuses, persistence, source snaps
 
 Before answering, run `prepare questionnaire.docx --scope your-scope` (XLSX is also supported). The host LLM reads the requirement and scoped KB evidence, with per-topic candidates and a paged full-KB fallback. The default page includes up to 200 entries, so a small KB is fully available for semantic review despite different wording. Follow `next_kb_offset` for additional pages. This is not embedding search; source and numeric guards remain in place, and relevance/entailment are assessed by the host agent. No extra model API is called.
 
-New evidence maps enumerate `requirements` as supported/missing, link claims to `requirement_ids` and KB excerpts, and explicitly mark coverage complete/partial/none. Partial responses must acknowledge incomplete coverage (`complete: false`, `coverage_checked: true`). Missing facts never enter the customer response. A documented negative capability is a supported fact. A known 99.7% SLA is preserved and flagged as below a requested 99.9%; service credits are not invented. See [the schema and round-trip example](references/word-answering.md).
+New evidence maps enumerate `requirements` as supported/missing, link claims to `requirement_ids` and KB excerpts, and explicitly mark coverage complete/partial/none. Partial responses must acknowledge incomplete coverage (`complete: false`, `coverage_checked: true`). Missing facts never enter the customer response. A documented negative capability is a supported fact. A known 99.7% SLA is preserved and flagged as below a requested 99.9%; service credits are not invented. See [the schema and round-trip example](plugins/rfp-agent/skills/rfp-agent/references/word-answering.md).
 
 The default workbook has SME Review, Instructions and Supporting Evidence tabs. The SME fills the four green fields: SME Response, Review Status, Reviewed By and Comments. Approved new facts enter the KB when the recognized workbook returns for application; Pending stays open. Not Applicable needs an explanation and does not create KB content. Existing different answers go to comparison review. Hidden references and stored snapshots validate context, workspace, scope and freshness. Rerun using fresh evidence after application. Fully unknown responses stay blank.
 
@@ -278,4 +280,4 @@ The default workbook has SME Review, Instructions and Supporting Evidence tabs. 
 
 ## Marketplace package development
 
-Listing metadata and the icon live in [marketplace/](marketplace/README.md). Run `python3 tools/build_marketplace.py` to assemble a marketplace ZIP from the same runtime files as the small installation package. Both packages are written to ignored `dist/`; tests, examples, company data and local archives are excluded.
+Listing metadata, icon, and skill live in [plugins/rfp-agent/](plugins/rfp-agent/). Run `python3 tools/build_marketplace.py` to package that directory directly. Claude Code users can add the repository as a marketplace with `/plugin marketplace add mpgtek/rfp-agent`, then install `rfp-agent@mpgtek-rfp-agent` after these changes are published. Both packages are written to ignored `dist/`; tests, examples, company data and local archives are excluded.

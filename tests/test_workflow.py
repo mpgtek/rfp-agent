@@ -288,8 +288,9 @@ class WorkflowTests(unittest.TestCase):
 
     def test_workspace_cannot_be_under_code(self):
         repo = Path(__file__).resolve().parents[1]
-        with self.assertRaisesRegex(ValueError, "outside"):
-            Store(repo / "persistent-data")
+        for root in (repo, repo / "plugins/rfp-agent"):
+            with self.assertRaisesRegex(ValueError, "outside"):
+                Store(root / "persistent-data")
 
     def test_directory_adapters_docx_text_csv_and_exports(self):
         directory = fixtures(self.inputs / "fixtures")
