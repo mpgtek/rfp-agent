@@ -60,11 +60,23 @@ def probe(python):
     return json.loads(process.stdout)
 
 
+CHILD_ENV_NAMES = ("PATH", "HOME", "USERPROFILE", "HOMEDRIVE", "HOMEPATH", "LOCALAPPDATA", "APPDATA",
+                   "XDG_DATA_HOME", "XDG_CONFIG_HOME", "SYSTEMROOT", "TEMP", "TMP", "TMPDIR",
+                   "LANG", "LC_ALL", "LC_CTYPE", "PYTHONUTF8", "PYTHONIOENCODING")
+
+
+def child_environment(state):
+    """Environment for the status check: only path/locale variables plus the state directory."""
+    env = {name: os.environ[name] for name in CHILD_ENV_NAMES if name in os.environ}
+    env["RFP_AGENT_STATE_DIR"] = str(state)
+    return env
+
+
 def bootstrap(state_dir=None, offline=False):
     if sys.version_info < (3, 11):
         raise RuntimeError("Python 3.11 or newer is required to initialize this skill")
     state = Path(state_dir).expanduser().resolve() if state_dir else state_directory().resolve()
-    protected = ROOT.parent.parent if ROOT.parent.name == "skills" and (ROOT.parent.parent / "plugin.json").is_file() else ROOT
+    protected = ROOT.parent.parent if ROOT.parent.name == "skills" and (ROOT.parent.parent / ".claude-plugin").is_dir() else ROOT
     if protected.parent.name == "plugins" and (protected.parent.parent / ".git").exists():
         protected = protected.parent.parent
     if state == protected or protected in state.parents:
@@ -110,7 +122,7 @@ def bootstrap(state_dir=None, offline=False):
     temp = state / "runtime.json.new"
     temp.write_text(json.dumps(runtime_state, indent=2), encoding="utf-8")
     temp.replace(state / "runtime.json")
-    env = dict(os.environ, RFP_AGENT_STATE_DIR=str(state))
+    env = child_environment(state)
     status = subprocess.run([str(python), str(launcher), "onboarding-status"], capture_output=True,
                             text=True, env=env, timeout=60)
     if status.returncode:
