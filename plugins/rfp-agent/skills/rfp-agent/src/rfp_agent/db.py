@@ -72,7 +72,7 @@ class Store:
     def __init__(self, workspace):
         self.root = Path(workspace).expanduser().resolve()
         code = Path(__file__).resolve().parents[2]
-        protected = code.parent.parent if code.parent.name == "skills" and (code.parent.parent / "plugin.json").is_file() else code
+        protected = code.parent.parent if code.parent.name == "skills" and (code.parent.parent / ".claude-plugin").is_dir() else code
         if protected.parent.name == "plugins" and (protected.parent.parent / ".git").exists():
             protected = protected.parent.parent
         if self.root == protected or protected in self.root.parents:

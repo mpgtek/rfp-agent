@@ -2,8 +2,11 @@
   "name": "rfp-agent",
   "version": "0.1.1",
   "description": "Build a reusable company KB, draft supported RFP answers and collect SME approvals.",
-  "author": {"name": "MPG Technologies LLC"},
+  "author": {
+    "name": "MPG Technologies LLC"
+  },
   "homepage": "https://github.com/mpgtek/rfp-agent",
   "repository": "https://github.com/mpgtek/rfp-agent",
-  "license": "MIT"
+  "license": "MIT",
+  "icon": "./assets/rfp-agent.png"
 }
