@@ -1,6 +1,10 @@
 # RFP Agent
 
-RFP Agent helps proposal, sales engineering and security teams build a reusable company knowledge base and draft evidence-backed answers to Word and Excel RFPs and security questionnaires. It works for both Codex and Claude. It imports your supplied question-and-answer documents with source references and revision history, composes concise answers from supported knowledge-base facts, leaves unsupported questions blank, and collects the remaining items in a simple SME review workbook. Named-SME approvals are applied back to the knowledge base, and conflicting existing answers are shown side by side for comparison before anything changes.
+RFP Agent helps proposal, sales engineering and security teams build a reusable company knowledge base and draft evidence-backed answers to Word and Excel RFPs and security questionnaires. It imports your supplied question-and-answer documents with source references and revision history, composes concise answers from supported knowledge-base facts, leaves unsupported questions blank, and collects the remaining items in a simple SME review workbook. Named-SME approvals are applied back to the knowledge base, and conflicting existing answers are shown side by side for comparison before anything changes.
+
+## Requirements
+
+Use an assistant that can run code and read files on your computer, such as Claude Code, the Claude desktop app or Codex, with Python 3.11 or newer. A chat session without local code and file access cannot read or save your knowledge base.
 
 ## What it runs and where data goes
 
