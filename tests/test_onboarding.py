@@ -17,6 +17,20 @@ from rfp_agent.db import Store
 from rfp_agent.onboarding import active_workspace, configure, status, state_directory
 
 
+class DefaultWorkspaceTests(unittest.TestCase):
+    def test_new_and_legacy_workspace_selection(self):
+        from rfp_agent.onboarding import default_workspace
+        with tempfile.TemporaryDirectory() as directory, patch("pathlib.Path.home", return_value=Path(directory)):
+            home = Path(directory)
+            current = home / "Documents/rfp-agent/rfp-kb-store"
+            legacy = home / "Documents/Codex/rfp-agent/rfp-kb-store"
+            self.assertEqual(current.resolve(), default_workspace())
+            legacy.mkdir(parents=True)
+            self.assertEqual(legacy.resolve(), default_workspace())
+            current.mkdir(parents=True)
+            self.assertEqual(current.resolve(), default_workspace())
+
+
 class OnboardingTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

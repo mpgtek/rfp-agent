@@ -33,7 +33,7 @@ The internal command is `apply-sme-review returned.xlsx`; `ingest`, `feedback` a
 
 ## Fixed single-company KB location
 
-The default company store is **`~/Documents/Codex/rfp-agent/rfp-kb-store`**, containing `knowledge.sqlite3`, `onboarding.json`, archived sources, reviews and runs. Normal new sessions resolve this path directly, without needing a location registry. Setup asks for company/scope only. Existing data is reused; access or dependency failures never justify initializing a replacement. Explicit `--workspace` and explicitly configured state registries remain available for isolated tests/alternate deployments.
+The default company store is **`~/Documents/rfp-agent/rfp-kb-store`**, containing `knowledge.sqlite3`, `onboarding.json`, archived sources, reviews and runs. Normal new sessions resolve this path directly, without needing a location registry. When the new folder does not exist, an existing legacy `~/Documents/Codex/rfp-agent/rfp-kb-store` is reused. Setup asks for company/scope only. Existing data is reused; access or dependency failures never justify initializing a replacement. Explicit `--workspace` and explicitly configured state registries remain available for isolated tests/alternate deployments.
 
 The installed skill and its update ZIP do not contain the company database. Runtime/settings files remain separate from the known KB directory.
 

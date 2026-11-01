@@ -12,7 +12,7 @@ The installed folder must contain `SKILL.md` directly, without an extra nested `
 
 Python 3.11+, SQLite FTS5, openpyxl, python-docx and lxml are required. Setup checks these and can install missing Python libraries into a separate managed environment when package access is available.
 
-The default company KB is `~/Documents/Codex/rfp-agent/rfp-kb-store/knowledge.sqlite3`. No company data is included in the download. The hosting AI service processes selected content under its own settings and policies.
+The default company KB is `~/Documents/rfp-agent/rfp-kb-store/knowledge.sqlite3`. No company data is included in the download. The hosting AI service processes selected content under its own settings and policies.
 
 ## Package contents
 
@@ -25,3 +25,5 @@ See the [full documentation](https://github.com/mpgtek/rfp-agent#readme) for dev
 [Privacy](PRIVACY.md) · [Terms](TERMS.md) · [MIT License](LICENSE)
 
 Support: [MPG Technologies LLC](https://www.mpgtek.com/#contact). Do not send credentials or confidential documents in public issues or initial support requests.
+
+On Windows, `~` denotes your user profile (for example, `C:\Users\your-name`); use `py -3` in place of `python3` in command examples. Existing installations continue to use the legacy `~/Documents/Codex/rfp-agent/rfp-kb-store` if the new location does not exist.

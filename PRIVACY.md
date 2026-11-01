@@ -10,7 +10,7 @@ This policy covers RFP Agent, the free skill/plugin for building a reusable know
 
 RFP Agent reads documents and information you make available for your requested workflow. These may include company questions and answers, RFP requirements, source documents, customer or employee information contained in those documents, and SME names and comments.
 
-The skill stores its SQLite knowledge base, source references and snapshots, answer revisions, review decisions and related working files in a local workspace outside the installed skill. Its default KB workspace is `~/Documents/Codex/rfp-agent/rfp-kb-store`. You or the hosting assistant may select another location. Generated documents and review workbooks are saved to the locations chosen for the workflow.
+The skill stores its SQLite knowledge base, source references and snapshots, answer revisions, review decisions and related working files in a local workspace outside the installed skill. Its default KB workspace is `~/Documents/rfp-agent/rfp-kb-store`. You or the hosting assistant may select another location. Generated documents and review workbooks are saved to the locations chosen for the workflow.
 
 This information is used to retrieve evidence, draft supported answers, identify missing information and apply approved knowledge-base changes.
 

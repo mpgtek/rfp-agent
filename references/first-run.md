@@ -4,7 +4,7 @@ Use this flow when the user invokes the skill to do RFP/KB work. A question abou
 
 ## Step 1 — recover saved state, then prepare the runtime
 
-Run `python3 -S scripts/discover_workspace.py` first. Normal discovery directly checks `~/Documents/Codex/rfp-agent/rfp-kb-store`, independent of the location registry or optional Python libraries. It does not create a DB. Reuse the company and scope in that folder's onboarding.json. Runtime/settings locations remain separate; explicit state/workspace selections support isolated tests. Never select a per-chat store.
+Run `python3 -S scripts/discover_workspace.py` first. Normal discovery checks `~/Documents/rfp-agent/rfp-kb-store` and falls back to the existing legacy location if the new location is absent, independent of optional Python libraries. It does not create a DB. Reuse the company and scope in that folder's onboarding.json. Runtime/settings locations remain separate; explicit state/workspace selections support isolated tests. Never select a per-chat store.
 
 If discovery reports an access error or missing saved DB, restore folder access or locate the existing workspace; do not rerun company onboarding or initialize an empty replacement. `--workspace /existing/company-folder` can recover metadata when its registry was moved. A local project with the company workspace attached gives new chats access to that folder. Local data still requires an eligible session with local access.
 
@@ -24,14 +24,14 @@ Proceed automatically within the invoked task. If the host enforces a permission
 
 ## Step 2 — confirm the company only on first use
 
-If setup is absent, ask for the company/product and scope only. The KB folder is already fixed at `~/Documents/Codex/rfp-agent/rfp-kb-store`; do not ask the user to choose a location. Reuse company details already supplied. Do not use a demo company or silently create a populated sample KB.
+If setup is absent, ask for the company/product and scope only. The default KB folder is `~/Documents/rfp-agent/rfp-kb-store`; use the discovered legacy folder when present; do not ask the user to choose a location. Reuse company details already supplied. Do not use a demo company or silently create a populated sample KB.
 
 Example: “Which company/product is this for? I will keep its KB in the fixed rfp-kb-store folder.”
 
 After the company is known, run the returned launcher with:
 
 ```text
---workspace ~/Documents/Codex/rfp-agent/rfp-kb-store setup --company <name> --scope <product-environment>
+--workspace ~/Documents/rfp-agent/rfp-kb-store setup --company <name> --scope <product-environment>
 ```
 
 This creates an empty SQLite workspace, `inputs/`, source archive, reviews and run folders, then saves the company/scope/workspace selection. Existing compatible workspaces can be registered without resetting data. A different company requires a separate workspace. Do not recreate a missing saved database silently.
@@ -71,3 +71,5 @@ When usable knowledge is available, accept DOCX or XLSX RFPs. Follow [Word and g
 Ingest explicit SME feedback as pending changes, obtain authorized approvals and reuse approved corrections/variants on the next RFP. At the start of subsequent invocations, call `onboarding-status` and resume at its `next_step`. Do not repeat company, folder or source-selection prompts unnecessarily. New sources or changed scope may need a focused follow-up question.
 
 The guided flow is conducted by the agent in conversation. The CLI exposes persistent setup/state and the next prompt; it does not open its own chat UI. Users can also operate the same commands directly if they prefer.
+
+Existing installations with a workspace at `~/Documents/Codex/rfp-agent/rfp-kb-store` continue using it if the new workspace does not exist. Preserve it; do not create a replacement when access fails. On Windows, use `py -3` in place of `python3` if Python is installed via the Windows launcher. Use the actual workspace returned by discovery for all commands.

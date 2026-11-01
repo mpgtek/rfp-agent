@@ -85,7 +85,7 @@ Use a JSON evidence map only after this coverage assessment:
 IDs, text and checksum are illustrative. Obtain actual scoped entry/revision IDs and source excerpts, and actual cell identifiers from `detect`. For XLSX use its sheet and cell, e.g. RFP/E2. Unknown/duplicate cells, changed questions, mismatched scope/checksum, missing/stale revisions and fabricated source quotes are rejected. Bare yes/no fragments cannot be repurposed for a different question. Preserve conditions and negation. Without `response`, the older verbatim-join fallback still works; prefer grounded composition when raw source passages are unsuitable customer answers. Older unstructured `coverage: partial` maps stay blank. New partial maps require the item schema below and a claim-cited response; missing items never enter customer prose.
 
 ```sh
-rfp-agent --workspace ~/Documents/Codex/rfp-agent/rfp-kb-store answer input.docx --scope your-company-scope --evidence-map reviewed-selections.json
+rfp-agent --workspace ~/Documents/rfp-agent/rfp-kb-store answer input.docx --scope your-company-scope --evidence-map reviewed-selections.json
 ```
 
 Coverage rationale is an explicit agent assessment, not a machine-proven semantic equivalence or an authenticated SME approval. The deterministic validator enforces source identity, scope, revision freshness and literal KB text. Selections remain needs-review or partial and do not create approved variants. The map and checksum are archived with the run. Existing feedback controls govern subsequent learning.

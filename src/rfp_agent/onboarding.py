@@ -44,8 +44,16 @@ def write_json(path, data):
 
 
 def default_workspace():
-    """Known single-company store, independent of chat and install locations."""
-    return (Path.home() / "Documents/Codex/rfp-agent/rfp-kb-store").resolve()
+    """Use the new location, preserving existing installations at the old path."""
+    home = Path.home()
+    current = home / "Documents" / "rfp-agent" / "rfp-kb-store"
+    legacy = home / "Documents" / "Codex" / "rfp-agent" / "rfp-kb-store"
+    # A partially present workspace must not be mistaken for a new installation.
+    if current.exists():
+        return current.resolve()
+    if legacy.exists():
+        return legacy.resolve()
+    return current.resolve()
 
 
 def active_workspace():
