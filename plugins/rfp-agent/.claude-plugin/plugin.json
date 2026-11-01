@@ -1,12 +1,29 @@
 {
   "name": "rfp-agent",
   "version": "0.1.1",
-  "description": "Build a reusable company KB, draft supported RFP answers and collect SME approvals.",
+  "description": "RFP Agent builds a reusable company knowledge base from your existing Q&A (including Word, Excel, Confluence or Notion exports) and uses it to draft evidence-backed answers to RFPs and security questionnaires in Word or Excel. Unsupported questions stay blank and go to a simple SME review workbook; approved answers update the KB. Runs locally; your data stays on your computer.",
   "author": {
     "name": "MPG Technologies LLC"
   },
   "homepage": "https://github.com/mpgtek/rfp-agent",
   "repository": "https://github.com/mpgtek/rfp-agent",
   "license": "MIT",
+  "keywords": [
+    "rfp",
+    "rfi",
+    "proposal",
+    "proposal-management",
+    "security-questionnaire",
+    "vendor-assessment",
+    "questionnaire",
+    "knowledge-base",
+    "sme-review",
+    "compliance",
+    "sales-engineering",
+    "word",
+    "excel",
+    "docx",
+    "xlsx"
+  ],
   "icon": "./assets/rfp-agent.png"
 }
