@@ -2,7 +2,7 @@
 
 This is an application-owned protocol, `rfp-agent.bridge.v1`. It is not a claim about the native API schemas of Jev, OpenAI GPT Decisions, or any generative model provider. The named adapters are optional HTTP bridge clients tested with in-process fake transports only. Native provider-specific authentication, request translation and model availability must be implemented/validated by a bridge owner before live use.
 
-For each configured task, the client POSTs JSON to the exact configured endpoint. There is no automatic endpoint construction or discovery. An optional `api_key_env` supplies a bearer token from an environment variable. The request includes:
+For each configured task, the client POSTs JSON to the exact configured endpoint. There is no automatic endpoint construction or discovery. The client sends no credentials and reads none from your environment; a bridge that needs upstream authentication must hold and apply it itself. The request includes:
 
 ```json
 {

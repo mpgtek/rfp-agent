@@ -17,7 +17,6 @@ provider = "disabled"
 # model = "your-validated-generative-model"
 # endpoint = "http://127.0.0.1:8787/generate"
 # allow_network = true
-# api_key_env = "RFP_BRIDGE_TOKEN"
 # max_output_tokens = 800
 # timeout_seconds = 30
 #

@@ -6,7 +6,6 @@ All external outputs can only downgrade deterministic approval decisions.
 from __future__ import annotations
 
 import json
-import os
 import time
 import tomllib
 from dataclasses import dataclass, field
@@ -40,17 +39,14 @@ class JsonBridge:
             raise ValueError("Set a valid explicit bridge endpoint without embedded credentials")
         if parsed.scheme != "https" and parsed.hostname not in {"127.0.0.1", "localhost", "::1"}:
             raise ValueError("Remote bridge endpoints must use HTTPS")
+        if "api_key_env" in settings:
+            raise ValueError("api_key_env is not supported; the bridge sends no credentials. Handle authentication inside your bridge.")
         if not settings.get("model"):
             raise ValueError("External task model is required")
         self.transport = transport or self._http
 
     def _http(self, payload):
         headers = {"Content-Type": "application/json"}
-        env = self.settings.get("api_key_env")
-        if env:
-            if not os.environ.get(env):
-                raise ValueError("Configured API key environment variable is absent")
-            headers["Authorization"] = "Bearer " + os.environ[env]
         request = Request(self.settings["endpoint"], data=json.dumps(payload).encode(), headers=headers, method="POST")
         with urlopen(request, timeout=self.settings.get("timeout_seconds", 30)) as response:
             raw = response.read(1_000_001)
